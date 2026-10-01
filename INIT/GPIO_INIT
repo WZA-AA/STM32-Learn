@@ -1,1 +1,26 @@
+#include "stm32f10x.h"             
 
+
+void GPIO_Init_()
+{
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
+	GPIO_InitTypeDef GPIO_Initstructure ;
+	GPIO_Initstructure.GPIO_Mode = GPIO_Mode_Out_PP;  // (输入模式：IN_FLOATING,IPU,IPD,AIN 输出模式：Out_PP,Out_OD,AF_PP,AF_OD)
+  | 宏 | 名称 | 典型场景 |
+  | --- | --- | --- |
+  | GPIO_Mode_IN_FLOATING | 浮空输入 | 外部自带电阻数字信号 |
+  | GPIO_Mode_IPU | 上拉输入 | 按键、外部中断 |
+  | GPIO_Mode_IPD | 下拉输入 | 特定外部信号 |
+  | GPIO_Mode_AIN | 模拟输入 | ADC |
+  | GPIO_Mode_Out_PP | 推挽输出 | LED，普通 IO 输出 |
+  | GPIO_Mode_Out_OD | 开漏输出 | I2C |
+  | GPIO_Mode_AF_PP | 复用推挽 | PWM、串口 |
+  | GPIO_Mode_AF_OD | 复用开漏 | I2C |
+
+	GPIO_Initstructure.GPIO_Pin = GPIO_Pin_0;
+	GPIO_Initstructure.GPIO_Speed = GPIO_Speed_50MHz;   // (GPIO引脚点平翻转的最大速度；输出模式才用配置Speed)
+	GPIO_Init(GPIOA , &GPIO_Initstructure);	
+			
+	
+}
