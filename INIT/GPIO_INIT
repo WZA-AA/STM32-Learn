@@ -4,7 +4,12 @@
 void GPIO_Init_()
 {
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	// (RCC:Reset and Clock Control ; APB:高级外设总线，传输信号，给外设提供时钟)
+  /*
+	APB1: TIM2,TIM3,TIM4,I2C,USART2,USART3,SPI2
+	APB2: GPIOA,GPIOB,GPIOC,AFIO,EXTI,TIM1,USART1,ADC1,ADC2
+	AHB: DMA,FLASH,SRAM,FSMC
+  /*
 	GPIO_InitTypeDef GPIO_Initstructure ;
 	GPIO_Initstructure.GPIO_Mode = GPIO_Mode_Out_PP;  // (输入模式：IN_FLOATING,IPU,IPD,AIN 输出模式：Out_PP,Out_OD,AF_PP,AF_OD)
   /* 
@@ -18,7 +23,7 @@ void GPIO_Init_()
   | GPIO_Mode_AF_PP | 复用推挽 | PWM、串口 |
   | GPIO_Mode_AF_OD | 复用开漏 | I2C |
   /*	
-	GPIO_Initstructure.GPIO_Pin = GPIO_Pin_0;
+	GPIO_Initstructure.GPIO_Pin = GPIO_Pin_0;  // (多个引脚用|分隔)
 	GPIO_Initstructure.GPIO_Speed = GPIO_Speed_50MHz;   // (GPIO引脚点平翻转的最大速度；输出模式才用配置Speed)
 	GPIO_Init(GPIOA , &GPIO_Initstructure);	
 			
