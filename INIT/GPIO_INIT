@@ -10,18 +10,18 @@ void GPIO_Init_()
 	APB2: GPIOA,GPIOB,GPIOC,AFIO,EXTI,TIM1,USART1,ADC1,ADC2
 	AHB: DMA,FLASH,SRAM,FSMC
   /*
-	GPIO_InitTypeDef GPIO_Initstructure ;
+	GPIO_InitTypeDef GPIO_Initstructure ;  // (定义结构体GPIO_Initstructure)
 	GPIO_Initstructure.GPIO_Mode = GPIO_Mode_Out_PP;  // (输入模式：IN_FLOATING,IPU,IPD,AIN 输出模式：Out_PP,Out_OD,AF_PP,AF_OD)
   /* 
   | 宏 | 名称 | 典型场景 |
-  | GPIO_Mode_IN_FLOATING | 浮空输入 | 外部自带电阻数字信号 |
-  | GPIO_Mode_IPU | 上拉输入 | 按键、外部中断 |
-  | GPIO_Mode_IPD | 下拉输入 | 特定外部信号 |
-  | GPIO_Mode_AIN | 模拟输入 | ADC |
-  | GPIO_Mode_Out_PP | 推挽输出 | LED，普通 IO 输出 |
-  | GPIO_Mode_Out_OD | 开漏输出 | I2C |
-  | GPIO_Mode_AF_PP | 复用推挽 | PWM、串口 |
-  | GPIO_Mode_AF_OD | 复用开漏 | I2C |
+  | GPIO_Mode_IN_FLOATING | 浮空输入 | 外部自带电阻数字信号 | 引脚接低读0，引脚接高读1，引脚不接电平不确定 |
+  | GPIO_Mode_IPU | 上拉输入 | 按键、外部中断 | 引脚接低读0，引脚接高读1，引脚不接默认为高电平 |
+  | GPIO_Mode_IPD | 下拉输入 | 特定外部信号 | 引脚接低读0，引脚接高读1，引脚不接默认为低电平 |
+  | GPIO_Mode_AIN | 模拟输入 | ADC | 数字通路断开 |    // (数字通路就是把引脚电平转换成0/1的电路)
+  | GPIO_Mode_Out_PP | 推挽输出 | LED，普通 IO 输出 | 输出1引脚接3.3V 输出0引脚接GND |
+  | GPIO_Mode_Out_OD | 开漏输出 | 软件模拟I2C | 输出1引脚变成高阻态 输出0引脚接GND |
+  | GPIO_Mode_AF_PP | 复用推挽输出 | PWM、串口 | 输出1引脚接3.3V 输出0引脚接GND 但是不再受GPIO_SetBits控制,由外设(TIM定时器，USART串口，SPI)控制 |
+  | GPIO_Mode_AF_OD | 复用开漏输出 | 硬件I2C | 输出1引脚变成高阻态 输出0引脚接GND |
   /*	
 	GPIO_Initstructure.GPIO_Pin = GPIO_Pin_0;  // (多个引脚用|分隔)
 	GPIO_Initstructure.GPIO_Speed = GPIO_Speed_50MHz;   // (GPIO引脚点平翻转的最大速度；输出模式才用配置Speed)
