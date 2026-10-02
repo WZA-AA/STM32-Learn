@@ -16,4 +16,4 @@ EXTI_Initstructure.EXTI_Mode = EXTI_Mode_Interrupt;
 
 EXTI_Initstructure.EXTI_Trigger = EXTI_Trigger_Falling;  //(Rising；上升沿 Falling；下降沿 Rising_Falling；双边沿(低变高，高变低都触发，例如按键按下触发一次，放手也触发一次) )
 
-EXTI_Init(&EXTI_Initstructure);
+EXTI_Init(&EXTI_Initstructure);  //(EXTI只有一套外设，不存在EXTIA，EXTIB，所以这里只有一个参数)
