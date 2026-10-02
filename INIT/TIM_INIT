@@ -1,0 +1,13 @@
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+
+TIM_TimeBaseInitTypeDef TIM_TimeBaseInitstructure;
+
+TIM_TimeBaseInitstructure.TIM_ClockDivision = TIM_CKD_DIV1;
+
+TIM_TimeBaseInitstructure.TIM_CounterMode = TIM_CounterMode_Up;
+
+TIM_TimeBaseInitstructure.TIM_Period = 
+
+TIM_TimeBaseInitstructure.TIM_Prescaler = 
+
+TIM_TimeBaseInit(TIM2,&TIM_TimeBasestructure);
