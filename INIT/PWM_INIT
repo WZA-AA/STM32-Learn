@@ -1,0 +1,27 @@
+//  GPIO_INIT  (PA2,GPIO_Mode_AF_PP)
+
+//  TIM_INIT  (TIM2)  PA2 -> TIM2_CH3
+//  高低电平切换的频率 = 72MHz/(AAR+1)(PSC+1)
+
+TIM_InitTypeDef TIM_OCInitstructure;
+
+TIM_OCInitstructure.TIM_OCMode = TIM_OCMode_PWM1;  // (有效电平是高电平还是低电平由OCPolarity决定)  OC：Output Compare
+/*
+CNT向上计数
+PWM1:CNT<CCR 输出有效电平 CNT>CCR 输出无效电平
+PWM2:CNT<CCR 输出无效电平 CNT>CCR 输出有效电平
+CNT向下计数
+PWM1:CNT<CCR 输出无效电平 CNT>CCR 输出有效电平
+PWM2:CNT<CCR 输出有效电平 CNT>CCR 输出无效电平
+/*
+
+TIM_OCInitstructure.TIM_OutoutState = TIM_OutputState_Enable;  //  
+
+TIM_OCInitstructure.TIM_Pulse =   //  (就是CCR的值，在PWM1模式下CCR控制CNT在多少个值以前是有效电平  占空比 = CCR/(ARR+1)  想要改变CCR的值，要在main函数中用TIM_SetCompare3(TIM2,需要修改的值))
+
+TIM_OCInitstructure.TIM_OCPolarity = TIM_OCPolarity_High;  //  (决定有效电平的极性)
+
+TIM_OC3Init(TIM2,&TIM_OCInitstructure);  //(3是TIM2_CH3中的3)
+
+TIM_Cmd(TIM2,ENABLE);  //  (最后才启动计时器)
+
