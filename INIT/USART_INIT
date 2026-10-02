@@ -1,0 +1,25 @@
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1,ENABLE)  // (与GPIO时钟一起打开)  USART1 -> APB2,PA9,PA10
+
+//  GPIO_INIT  (TX:PA9,GPIO_Mode_AF_PP  RX:PA10,GPIO_Mode_IPU)
+
+USART_InitTypeDef USART_Initstructure;
+
+USART_Initstructure.USART_HardwarreFlowControl = USART_HardwareFlowControl_None;  //  (硬件流控:额外用两根线RTS和CTS控制收发速度)
+
+USART_Initstructure.USART_Mode = USART_Mode_TX | USART_Mode_RX;
+
+USART_Initstructure.USART_BaudRate =  9600 //  (波特率，每秒传输的bit大小，常用9600，115200)
+
+USART_Initstructure.USART_WordLenth = USART_WordLength_8b;  //  (数据位长度，一次传输的大小)
+
+USART_Initstructure.USART_Parity = USART_parity_No;  //  (奇偶效验位)
+
+USART_Initstructure.USART_StopBits = USART_StopBits_1;  //  (停止位)
+
+USART_Init(USART1,&USART_Initstructure);
+
+NVIC_INIT  //  (NVIC_IRQChannel_USART1_IRQn)
+
+
+//USART:同步异步收发器  同步模式:多出一根时钟线SCLK，高速同步传输  异步模式:不用时钟线，用串口(TX和RX)
+//UART:异步收发器
