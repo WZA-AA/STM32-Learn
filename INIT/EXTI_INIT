@@ -1,0 +1,19 @@
+// GPIO_INIT  (GPIOA,GPIO_Pin_0)
+
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE)  
+
+GPIO_EXTILineConfig(GPIO_PortSourceGPIOA,GPIO_PinSource0);  // (AFIO把PA0接到EXTI_Line0中断线上)
+
+EXTI_InitTypeDef EXTI_Initstructure;
+
+EXTI_Initstructure.EXTI_Line = EXTI_Line0;  // (PA0,PB0,PC0 -> EXTI_Line0  PA1,PB1,PC1 -> EXTI_Line1)
+
+EXTI_Initstructure.EXTI_LineCmd = ENABLE;
+
+EXTI_Initstructure.EXTI_Mode = EXTI_Mode_Interrupt;  
+
+//(两种模式；Interrupt 中断模式，检测到上升沿或者下降沿就产生中断信号，发给NVIC，NVIC再发给CPU；Event 事件模式：检测到上升沿或者下降沿产生内部事件脉冲，脉冲发给其他外设(定时器,ADC,DMA),没用到CPU)
+
+EXTI_Initstructure.EXTI_Trigger = EXTI_Trigger_Falling;  //(Rising；上升沿 Falling；下降沿 Rising_Falling；双边沿(低变高，高变低都触发，例如按键按下触发一次，放手也触发一次) )
+
+EXTI_Init(&EXTI_Initstructure);
