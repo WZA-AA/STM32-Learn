@@ -1,13 +1,22 @@
-RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);  //  (APB1对应TIM2,TIM3,TIM4 ; APB2对应TIM1)
 
 TIM_TimeBaseInitTypeDef TIM_TimeBaseInitstructure;
 
-TIM_TimeBaseInitstructure.TIM_ClockDivision = TIM_CKD_DIV1;
+TIM_TimeBaseInitstructure.TIM_ClockDivision = TIM_CKD_DIV1;  //  (时钟分频，TTIM_CKD_DIV1不分频，定时中断大多都用这个; )
 
-TIM_TimeBaseInitstructure.TIM_CounterMode = TIM_CounterMode_Up;
+TIM_TimeBaseInitstructure.TIM_CounterMode = TIM_CounterMode_Up;  //  (Up向上计数，Down向下计数)
 
-TIM_TimeBaseInitstructure.TIM_Period = 
+TIM_TimeBaseInitstructure.TIM_Period = 10000 - 1  //  (ARR 设置CNT的最大值，最大值为65535)
 
-TIM_TimeBaseInitstructure.TIM_Prescaler = 
+TIM_TimeBaseInitstructure.TIM_Prescaler =   //  (PSC 决定CNT多久加一，计数频率为72MHz/(PSC+1))
 
 TIM_TimeBaseInit(TIM2,&TIM_TimeBasestructure);
+
+TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);  //  (打开定时器中断)
+
+//  NVIC_INIT
+
+TIM_Cmd(TIM2,ENABLE);  //  (开始运行定时器，计数器开始计数)
+
+计数器CNT加到ARR，再归零，最后执行中断
+周期 T = 72MHz/(ARR+1)(PSC+1)
