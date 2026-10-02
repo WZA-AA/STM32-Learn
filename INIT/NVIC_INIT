@@ -1,9 +1,23 @@
 
 
-NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2)
+NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2)  //  (配置中断分组，整个工程只有一个,有Group0，1，2，3，4，)
+/*
+分组	  抢占优先级位数	子优先级位数	抢占优先级范围	子优先级范围
+Group0     	0 位	       4 位	          无        0~15（16 级）
+Group1	    1 位	       3 位       0~1(2 级)	    0~7（8 级）
+Group2	    2 位	       2 位       0~3(4 级)	    0~3（4 级）
+Group3	    3 位	       1 位	      0~7(8 级)	    0~1（2 级）
+Group4    	4 位	       0 位	      0~15(16 级)	     无
+/*
+
 NVIC_InitTypeDef NVIC_Initstructure;
-NVIC_Initstructure.NVIC_IRQChannel = 
-NVIC_Initstructure.NVIC_IRQChannekCmd = ENABLE;
-NVIC_Initstructure.NVIC_IRQChannelPreemptionPriority = 1;
-NVIC_Initstructure.NVIC_IRQChannelSubPriority = 1;
+
+NVIC_Initstructure.NVIC_IRQChannel = EXTI0_IRQn   //  (还有USART1_IRQn,TIM2_IRQn)
+
+NVIC_Initstructure.NVIC_IRQChannelCmd = ENABLE;
+
+NVIC_Initstructure.NVIC_IRQChannelPreemptionPriority = 1;  //  (抢占优先级)
+
+NVIC_Initstructure.NVIC_IRQChannelSubPriority = 1;  //  (响应/子 优先级)
+
 NVIC_Init(&NVIC_Initstructure);
