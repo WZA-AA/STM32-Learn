@@ -1,0 +1,42 @@
+uint8_t Serial_RXBuffer[100];
+
+RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);  //  (USART1_RX -> DMA1_Channel5)
+
+DMA_InitTypeDef DMA_Initstructure;
+
+DMA_DeInitt(DMA1_Channel5);  //  (复位DMA1通道5，把之前就的配置清空)
+
+DMA_Initstructure.DMA_PeripheralBaseAddr = (uint32_t)&USART1 -> DR;  //  (DR是USART的数据储存器，分为TDR和RDR，发送和接收数据寄存器，共用一个地址)
+//  (&USART1->DR是带类型标签的地址 转换成uint32_t则是单纯的地址数字)
+
+DMA_Initstructure.DMA_MemoryBaseAddr = (uint32_t)Serial_RXBuffer;
+
+DMA_Initstructure.DMA_BufferSize = 100;  //  (缓冲区大小 Serial_RXBuffer的大小)
+
+DMA_Initstructure.DMA_DIR = DMA_DIR_PeripheralSRC;  //  (传输方向 DIR = destination SRC = source 还有  DST = destination)
+
+DMA_Initstructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;  //  (地址自增Inc = incremen )
+
+DMA_Initstructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+
+DMA_Initstructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;  //  (Byte = uint_t一次传输一字节，Halfword = uint16_t, Word = uint32_t)
+
+DMA_Initstructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+
+DMA_Initstructure.DMA_Mode = DMA_Mode_Circular;
+
+DMA_Initstructure.DMA_Priority = DMA_Priority_Medium;
+
+DMA_Initstructure.DMA_M2M = DMA_M2M_Disable;
+
+DMA_Init(DMA1_Channel5,&DMA_Initstructure);
+
+DMA_ClearFlag(DMA1_FLAG_TC5 | DMA1_FLAG_TE5 | DMA1_FLAG_HT5);
+
+USART_DMACmd(USART1,USART_DMAReq_RX,ENABLE);
+
+DMA_Cmd(DMA1_Channel5,ENABLE);
+
+USART_Cmd(USART1,ENABLE);
+
+USART_ITConfig(USART1,USART_IT_IDLE,ENABLE);
