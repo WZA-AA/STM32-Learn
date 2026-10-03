@@ -1,0 +1,7 @@
+uint8_t Serial_TXBuffer[100];
+RCC_AHBPerihphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
+DMA_DeInit(DMA1_Channel4);
+DMA_InitTypeDef DMA_Initstructure;
+DMA_Initstructure.DMA_PeripheralBaseAddr = (uint32_t)&USART1 -> DR;
+DMA_Initstructure.DMA_MemoryBaseAddr = (uint32_t)Serial_TXBuffer;
+DMA_Initstructure.DMA_
