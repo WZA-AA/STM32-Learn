@@ -1,3 +1,5 @@
+外部设备 -> 外设DR -> DMA -> 内存RXBuffer
+
 uint8_t Serial_RXBuffer[100];
 
 RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);  //  (USART1_RX -> DMA1_Channel5)
@@ -23,15 +25,15 @@ DMA_Initstructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;  //  (By
 
 DMA_Initstructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
 
-DMA_Initstructure.DMA_Mode = DMA_Mode_Circular;
+DMA_Initstructure.DMA_Mode = DMA_Mode_Circular;  //  (循环模式，缓冲区满后DMA不停，回到内存初始数组，从头覆盖写入)
 
 DMA_Initstructure.DMA_Priority = DMA_Priority_Medium;
 
-DMA_Initstructure.DMA_M2M = DMA_M2M_Disable;
+DMA_Initstructure.DMA_M2M = DMA_M2M_Disable;  //  (内存到内存搬运关闭)
 
 DMA_Init(DMA1_Channel5,&DMA_Initstructure);
 
-DMA_ClearFlag(DMA1_FLAG_TC5 | DMA1_FLAG_TE5 | DMA1_FLAG_HT5);
+DMA_ClearFlag(DMA1_FLAG_TC5 | DMA1_FLAG_TE5 | DMA1_FLAG_HT5);  //  (5是DMA_Channel5,HT5是传输一半的标志 传输一半等于1,TC5是传输完成的标志 传输完成等于1,TE5是传输错误的标志 传输错误等于1)
 
 USART_DMACmd(USART1,USART_DMAReq_RX,ENABLE);
 
