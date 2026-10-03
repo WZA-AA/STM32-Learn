@@ -1,21 +1,43 @@
+内存TXBuffer -> DMA -> 外设DR -> 串口发送出去 
+
 uint8_t Serial_TXBuffer[100];
+
 RCC_AHBPerihphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
+
 DMA_DeInit(DMA1_Channel4);
+
 DMA_InitTypeDef DMA_Initstructure;
-DMA_Initstructure.DMA_PeripheralBaseAddr = (uint32_t)&USART1 -> DR;
+
+/MA_Initstructure.DMA_PeripheralBaseAddr = (uint32_t)&USART1 -> DR;
+
 DMA_Initstructure.DMA_MemoryBaseAddr = (uint32_t)Serial_TXBuffer;
-DMA_Initstructure.DMA_BufferSize = 100;
+
+DMA_Initstructure.DMA_BufferSize = 0;  //  (先用0占位)
+
 DMA_Initstructure.DMA_DIR = DMA_DIR_PherpheralDST;
+
 DMA_Initstructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+
 DMA_Initstructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+
 DMA_Initstructure.DMA_peripheralDataSize = DMA_PeripheralDataSize_Byte;
+
 DMA_Initstructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-DMA_Initstructure.DMA_Mode = DMA_Mode_Normal;
+
+DMA_Initstructure.DMA_Mode = DMA_Mode_Normal;  //  (一次传输完成就停)
+
 DMA_Initstructure.DMA_Priority = DMA_Priority_Medium;
+
 DMA_Initstructure.DMA_M2M = DMA_M2M_Disable;
+
 DMA_Init(DMA1_Channel4,&DMA_Initstructure);
+
 DMA_ClearFlag(DMA1_FLAG_TC4 | DMA1_FLAG_TE4 | DMA1_FLAG_HT4);
+
 USART_DMACmd(USART1,USART_DMAReq_TX,ENABLE);
+
 DMA_Cmd(DMA1_Channel4,ENABLE);
+
 USART_Cmd(USART1,ENABLE);
+
 USART_ITConfig(USART1,USART_IT_IDLE,ENABLE);
